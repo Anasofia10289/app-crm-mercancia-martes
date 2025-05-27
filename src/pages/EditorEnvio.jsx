@@ -28,16 +28,28 @@ const EditarEnvio =() => {
     getEnvioId();
   }, []);
     function editarEnvio(){
-
+        let envioEditado = {
+            idEnvio: envio,
+            producto: producto,
+            destino: destino
+        }
+        fetch (apiEnvios + id,{
+        method: "PATCH",
+        body: JSON.stringify(envioEditado),
+        })
+        .then(() =>
+             alertaRedireccion(redireccion, "Registro Editado correctamente","/home/envios"))
+        .catch(() => 
+            alertaGeneral("Error", "No se pudo editar", "error"));
     }
 
     return(
         <form class="form">
         Sign Up
-    <input value={envio} type="text" class="input" placeholder="Id Envio"/>
-    <input value={producto}type="text" class="input" placeholder="Producto"/>
-    <input value={destino}type="text" class="input" placeholder="Destino"/> 
-    <button type="button">Submit</button>
+    <input onChange={(e) => setEnvio(e.target.value)} value={envio} type="text" class="input" placeholder="Id Envio"/>
+    <input onChange={(e) => setProducto(e.target.value)} value={producto}type="text" class="input" placeholder="Producto"/>
+    <input onChange={(e) => setDestino(e.target.value)}value={destino}type="text" class="input" placeholder="Destino"/> 
+    <button onClick={editarEnvio} type="button">Submit</button>
 </form>
     )
 }
